@@ -32,14 +32,15 @@
 </div>
 
   <div class="cards">
-    <% @bookmarks.each do |bookmark| %>
+    <% @list.movies.each do |movie| %>
       <div class="card" style="width: 28rem;">
-        <%= image_tag bookmark.movie.poster_url, alt: "movie picture from #{bookmark.movie.title}", width: 100, class: "card-img-top" %>
+        <%= image_tag movie.poster_url, alt: "movie picture from #{movie.title}", width: 100, class: "card-img-top" %>
         <div class="card-body">
-          <h5 class="card-title"><%= bookmark.movie.title %></h5>
-          <p class="card-text"><%= bookmark.movie.overview %></p>
+          <h5 class="card-title"><%= movie.title %></h5>
+          <p class="card-text"><%= movie.overview %></p>
           <%# remplacer go somewhere par bouton delete %>
-          <%= link_to "delete from the list", list_bookmark_path(@list, bookmark), data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}, class: "btn btn-primary" %>
+          <% bookmark = Bookmark.find_by(list_id: @list.id, movie_id: movie.id) %>
+          <%= link_to "delete from the list", bookmark_path(bookmark), data: {turbo_method: :delete, turbo_confirm: 'Are you sure?'}, class: "btn btn-primary" %>
         </div>
       </div>
     <% end %>
